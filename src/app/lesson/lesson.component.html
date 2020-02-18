@@ -1,0 +1,35 @@
+<div class="lesson-page">
+
+    <h1 class="page-title">Lessons-Page</h1>
+
+    <div class="page-inner">
+        <button class="btn main-btn">
+            Add new Lesson
+        </button>
+
+        <div class="lessons-table">
+
+            <table>
+                <tr>
+                    <th>#</th>
+                    <th>Topic</th>
+                    <th>Date</th>
+                    <th>Lecturer</th>
+                    <th>Actions</th>
+                </tr>
+                <tr *ngFor="let lesson of lessons; let i=index">
+                    <th>{{i+1}}</th>
+                    <th>{{lesson.topic}}</th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<app-modal *ngIf="isModalOpen"></app-modal>
