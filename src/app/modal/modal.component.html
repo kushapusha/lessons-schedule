@@ -1,1 +1,68 @@
-<p>modal works!</p>
+<div class="modal-page">
+
+  <div class="modal-inner">
+
+    <div class="modal-header">
+      <span>Add lesson</span>
+      <span class="close" (click)="closeDialog()">&#10005;</span>
+    </div>
+
+    <div class="modal-body">
+
+      <form [formGroup]="form">
+
+        <div class="form-field">
+          <input type="text"
+                 placeholder="Enter topic"
+                 formControlName="topic">
+          <div
+            *ngIf="form.get('topic').invalid && form.get('topic').touched"
+            class="validation"
+          >
+            <small *ngIf="form.get('topic').errors.required">
+              Topic is required
+            </small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <input type="text"
+                 placeholder="Enter date"
+                 formControlName="date">
+          <div
+            *ngIf="form.get('date').invalid && form.get('date').touched"
+            class="validation"
+          >
+            <small *ngIf="form.get('date').errors.required">
+              Date is required
+            </small>
+          </div>
+        </div>
+
+        <div class="form-field">
+          <input type="text"
+                 placeholder="Enter lecturer"
+                 formControlName="lecturer">
+          <div
+            *ngIf="form.get('lecturer').invalid && form.get('lecturer').touched"
+            class="validation"
+          >
+            <small *ngIf="form.get('lecturer').errors.required">
+              Lecturer is required
+            </small>
+          </div>
+        </div>
+
+      </form>
+
+    </div>
+    <hr>
+
+    <div class="modal-footer">
+      <button type="submit" class="btn" (click)="addLesson()">Add</button>
+      <button type="button" class="btn" (click)="closeDialog()">Close</button>
+    </div>
+
+  </div>
+
+</div>

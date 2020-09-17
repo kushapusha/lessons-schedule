@@ -1,35 +1,87 @@
 <div class="lesson-page">
 
-    <h1 class="page-title">Lessons-Page</h1>
+  <h1 class="page-title">Lessons-Page</h1>
 
-    <div class="page-inner">
-        <button class="btn main-btn">
-            Add new Lesson
-        </button>
+  <div class="page-inner">
+    <button class="btn main-btn"
+            (click)="showModal()">
+      Add new Lesson
+    </button>
 
-        <div class="lessons-table">
+    <div class="lessons-table">
 
-            <table>
-                <tr>
-                    <th>#</th>
-                    <th>Topic</th>
-                    <th>Date</th>
-                    <th>Lecturer</th>
-                    <th>Actions</th>
-                </tr>
-                <tr *ngFor="let lesson of lessons; let i=index">
-                    <th>{{i+1}}</th>
-                    <th>{{lesson.topic}}</th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </table>
+      <form [formGroup]="editForm">
+        <table>
+          <tr>
+            <th>#</th>
+            <th>Topic</th>
+            <th>Date</th>
+            <th>Lecturer</th>
+            <th>Actions</th>
+          </tr>
+          <tr *ngFor="let lesson of lessons; let i=index">
+            <td>{{i + 1}}</td>
 
-        </div>
+            <td *ngIf="!isEditMode || i !== lessonIndex">{{lesson.topic}}</td>
+            <td *ngIf="isEditMode && i === lessonIndex">
+              <input type="text"
+                     value="{{lesson.topic}}"
+                     formControlName="topic"
+              ></td>
+
+            <td *ngIf="!isEditMode || i !== lessonIndex">{{lesson.date}}</td>
+            <td *ngIf="isEditMode && i === lessonIndex">
+              <input type="text"
+                     value="{{lesson.date}}"
+                     formControlName="date"
+              ></td>
+
+            <td *ngIf="!isEditMode || i !== lessonIndex">{{lesson.lecturer}}</td>
+            <td *ngIf="isEditMode && i === lessonIndex">
+              <input type="text"
+                     value="{{lesson.lecturer}}"
+                     formControlName="lecturer"
+              ></td>
+
+            <td>
+              <button class="btn mini-btn"
+                      type="button"
+                      *ngIf="!isEditMode || i !== lessonIndex"
+                      (click)="showEditMode(lesson)"
+              >Edit
+              </button>
+              <button class="btn mini-btn"
+                      type="submit"
+                      *ngIf="isEditMode && i === lessonIndex"
+                      (click)="editLesson(i)"
+              >Save
+              </button>
+              <button class="btn mini-btn"
+                      type="button"
+                      *ngIf="!isEditMode || i !== lessonIndex"
+                      (click)="deleteLesson(i)"
+              >Delete
+              </button>
+              <button class="btn mini-btn"
+                      type="button"
+                      *ngIf="isEditMode && i === lessonIndex"
+                      (click)="cancel()"
+              >Cancel
+              </button>
+            </td>
+
+          </tr>
+        </table>
+      </form>
 
     </div>
 
+  </div>
+  <app-modal *ngIf="isModalOpen"
+             (isConfirmed)="closeModal()"
+             (newLesson)="addNewLesson($event)"
+  ></app-modal>
+
 </div>
 
-<app-modal *ngIf="isModalOpen"></app-modal>
+

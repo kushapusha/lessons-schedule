@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ILesson} from '../lesson.interface';
 
 @Component({
   selector: 'app-modal',
@@ -7,9 +9,31 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModalComponent implements OnInit {
 
-  constructor() { }
+  form: FormGroup;
+  @Output() isConfirmed: EventEmitter<any> = new EventEmitter<any>();
+  @Output() newLesson: EventEmitter<ILesson> = new EventEmitter<ILesson>();
 
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder) { }
+
+  ngOnInit() {
+    this.formData();
   }
 
+  formData() {
+    this.form = this.fb.group({
+      topic: this.fb.control(null, Validators.required),
+      date: this.fb.control(null, Validators.required),
+      lecturer: this.fb.control(null, Validators.required)
+    });
+  }
+
+  addLesson() {
+    this.newLesson.emit(this.form.value);
+    this.isConfirmed.emit();
+  }
+
+  closeDialog() {
+    this.isConfirmed.emit();
+  }
 }
+
